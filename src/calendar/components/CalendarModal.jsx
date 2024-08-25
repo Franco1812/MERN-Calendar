@@ -1,5 +1,12 @@
+import { addHours } from "date-fns";
 import { useState } from "react";
 import Modal from "react-modal";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { es } from "date-fns/locale";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+registerLocale("es",es );
 
 const customStyles = {
   content: {
@@ -16,27 +23,116 @@ Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
 
- const [isOpen, setIsOpen] = useState( true )
+  const [isOpen, setIsOpen] = useState(true);
+
+  const [formValues, setFormValues] = useState({
+    title: "Franco",
+    notes: "arnold",
+    start: new Date(),
+    end: addHours(new Date(), 2),
+  })
+
+
+  const onInputChanged = ({ target }) => {
+    setFormValues({
+      ...formValues,
+      [target.name]: target.value
+    })
+  }
+
+  const onDateChanged = (event, changing) => {
+    setFormValues({
+      ...formValues,
+      [changing]: event
+    })
+  }
+
 
   const onCloseModal = () => {
     console.log("cerrando modal");
-    setIsOpen( false );
+    setIsOpen(false);
 
   }
 
 
   return (
     <Modal
-      isOpen={ isOpen }
+      isOpen={isOpen}
       onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
-      closeTimeoutMS={ 200 }
+      closeTimeoutMS={200}
     >
-        <h1>Hola pelotudos</h1>
+
+      <h1> Nuevo evento </h1>
+      <hr />
+      <form className="container">
+
+        <div className="form-group mb-2">
+          <label>Fecha y hora inicio</label>
+          <DatePicker
+            selected={formValues.start}
+            onChange={(event) => onDateChanged(event, "start")  }
+            className="form-control"
+            dateFormat="Pp"
+            locale="es"
+            timeCaption="Hora"
+          />
+        </div>
+
+        <div className="form-group mb-2">
+          <label>Fecha y hora fin</label>
+          <DatePicker
+            selected={formValues.end}s
+            onChange={(event) => onDateChanged(event, "end")  }
+            className="form-control"
+            dateFormat="Pp"
+            showTimeSelect
+            timeCaption="Hora"
+            locale="es"
+          />
+        </div>
+
         <hr />
-        <p>Python es un lenguaje de alto nivel de programación interpretado cuya filosofía hace hincapié en la legibilidad de su código. Se trata de un lenguaje de programación multiparadigma, ya que soporta parcialmente la orientación a objetos, programación imperativa y, en menor medida, programación funcional</p>
+        <div className="form-group mb-2">
+          <label>Titulo y notas</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Título del evento"
+            name="title"
+            autoComplete="off"
+            value={formValues.title}
+            onChange={onInputChanged}
+          />
+          <small id="emailHelp" className="form-text text-muted">Una descripción corta</small>
+        </div>
+
+        <div className="form-group mb-2">
+          <textarea
+            type="text"
+            className="form-control"
+            placeholder="Notas"
+            rows="5"
+            name="notes"
+            value={formValues.notes}
+            onChange={onInputChanged}
+          ></textarea>
+          <small id="emailHelp" className="form-text text-muted">Información adicional</small>
+        </div>
+
+        <button
+          type="submit"
+          className="btn btn-outline-primary btn-block"
+        >
+          <i className="far fa-save"></i>
+          <span> Guardar</span>
+        </button>
+
+      </form>
+
+
     </Modal>
   )
 }
