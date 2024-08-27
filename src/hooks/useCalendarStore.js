@@ -14,5 +14,5 @@ export const useCalendarStore = () => {
     //metod
     SetActiveEvent,
     
-  };
-};
+  }
+}
