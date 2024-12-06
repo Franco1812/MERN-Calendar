@@ -4,14 +4,14 @@ import './LoginPage.css';
 import Swal from 'sweetalert2';
 
 const loginFormFields = {
-  loginEmail:    "",
+  loginEmail: "",
   loginPassword: "",
 }
 const registerFormFields = {
-  registerName:       "",
-  registerEmail:      "",
-  registerPassword:   "",
-  registerPassword2:  "",
+  registerName: "",
+  registerEmail: "",
+  registerPassword: "",
+  registerPassword2: "",
 }
 
 
@@ -19,28 +19,29 @@ const registerFormFields = {
 export const LoginPage = () => {
   const { startLogin, errorMessage, startRegister } = useAuthStore();
 
-  const {loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
-  const {registerName, registerEmail, registerPassword,registerPassword2, onInputChange: onRegisterInputChange } = useForm(registerFormFields);
- 
+  const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
+  const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm(registerFormFields);
+
   const loginSubmit = (event) => {
     event.preventDefault();
-    startLogin({email: loginEmail, password: loginPassword})
+    startLogin({ email: loginEmail, password: loginPassword })
+    Swal.fire('EDATEAMOS?', 'LINDA?', 'success')
   }
-  const registerSubmit = (event) => { 
+  const registerSubmit = (event) => {
     event.preventDefault();
-    if(registerPassword !== registerPassword2) {
-      Swal.fire('Error en el registro','Contraseñas no son iguales','error')
+    if (registerPassword !== registerPassword2) {
+      Swal.fire('Error en el registro', 'Contraseñas no son iguales', 'error')
       return;
     }
-    startRegister({name: registerName, email: registerEmail,password: registerPassword})
+    startRegister({ name: registerName, email: registerEmail, password: registerPassword })
   }
   useEffect(() => {
-    if (errorMessage !== undefined ) {
+    if (errorMessage !== undefined) {
       Swal.fire('Error en la autenticacion', errorMessage, 'error')
     }
 
   }, [errorMessage])
-  
+
 
   return (
     <div className="container login-container">
@@ -56,7 +57,7 @@ export const LoginPage = () => {
                 name="loginEmail"
                 value={loginEmail}
                 onChange={onLoginInputChange}
-                />
+              />
             </div>
             <div className="form-group mb-2">
               <input
