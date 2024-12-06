@@ -25,7 +25,7 @@ export const LoginPage = () => {
   const loginSubmit = (event) => {
     event.preventDefault();
     startLogin({ email: loginEmail, password: loginPassword })
-    Swal.fire('EDATEAMOS?', 'LINDA?', 'success')
+    Swal.fire('EDATEAMOS?LINDA', 'anitateamo10', 'success')
   }
   const registerSubmit = (event) => {
     event.preventDefault();
